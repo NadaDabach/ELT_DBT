@@ -5,6 +5,8 @@ from snowflake import snowflake_config
 from config import settings
 from snowflake.snowflake_config import execute_query
 from snowflake.snowflake_config import create_format_file
+from snowflake import test_zones
+from snowflake import snowpipe_azure
 from snowflake import taxi_trips
 from snowflake import payment
 from snowflake import point_of_interest
@@ -19,7 +21,7 @@ import json
 if __name__ == '__main__':
     # snowflake_config.create_objects("Taxi_NYC", "Taxi_NYC_warehouse", "Taxi_NYC_schema")
     conn = snowflake_config.snowflake_connect()
-    # conn = sf.connect(user='nadimab', password='Johnsnowbimbaz@1', account='VFUZTQL-II47900')
+
     try:
         sql = 'use {}'.format(settings.database)
         execute_query(conn, sql)
@@ -32,7 +34,20 @@ if __name__ == '__main__':
 
         create_format_file(conn)
 
-        """# Create and load TAXI TRIPS
+        cs = conn.cursor()
+
+        cs.execute("SELECT CURRENT_WAREHOUSE()")
+        warehouse = cs.fetchone()
+        print('Selected Warehouse is :  ' + str(warehouse[0]))
+        cs.execute("SELECT CURRENT_DATABASE()")
+        db = cs.fetchone()
+        print('Selected Database User is :' + str(db[0]))
+        cs.execute("SELECT CURRENT_SCHEMA()")
+        schema = cs.fetchone()
+        print('Selected Schema User is :' + str(schema[0])) 
+
+
+        # Create and load TAXI TRIPS
         taxi_trips.create_table_taxi_trips(conn)
         taxi_trips.load_table_taxi_trips(conn)
 
@@ -53,11 +68,14 @@ if __name__ == '__main__':
 
         # Create and load POINTS OF INTEREST table
         point_of_interest.create_table_point_of_interest(conn)
-        point_of_interest.load_table_points_of_interest(conn)"""
+        point_of_interest.load_table_points_of_interest(conn)
 
         # Create and load TAXI ZONES table
         taxi_zones.create_table_zones_taxi(conn)
         taxi_zones.load_table_zones_taxi(conn)
+
+        # Create the Notification Integration
+        #snowpipe_azure.create_data_ingestion_pipeline(conn)
 
     except Exception as e:
         print(e)

@@ -1,5 +1,7 @@
 user="Nada"
-account="kbzjqkg-xt65388"
+account="lixuwdh-nk70449"
 database="Taxi_NYC"
 warehouse="Taxi_NYC_warehouse"
 schema="Taxi_NYC_schema"
+database_marts="TAXI_NYC_DATA_MARTS"
+schema_marts="TAXI_NYC_DATA_MARTS_SCHEMA"

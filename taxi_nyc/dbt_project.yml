@@ -23,6 +23,7 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
+target-path: target
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -30,8 +31,46 @@ clean-targets:         # directories to be removed by `dbt clean`
 # In this example config, we tell dbt to build all models in the example/
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
+# models:
+#  taxi_nyc:
+    # Config indicated by + and applies to all files under models/example/
+#    example:
+#      +materialized: view
+
 models:
   taxi_nyc:
-    # Config indicated by + and applies to all files under models/example/
-    example:
-      +materialized: view
+    raw_stage:
+      tags:
+        - 'raw'
+      materialized: view
+    stage:
+      tags:
+        - 'stage'
+      enabled: true
+      materialized: view
+    raw_vault:
+      tags:
+        - 'raw_vault'
+      materialized: table
+      hubs:
+        tags:
+          - 'hub'
+      links:
+        tags:
+          - 'link'
+      satellites:
+        tags:
+          - 'sat'
+    business_vault:
+      tags:
+        - 'business_vault'
+      materialized: table
+      hubs_business:
+        tags:
+          - 'hub_business'
+      links_business:
+        tags:
+          - 'link_business'
+      satellites_business:
+        tags:
+          - 'sat_business'
