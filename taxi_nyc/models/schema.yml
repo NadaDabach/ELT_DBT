@@ -1,0 +1,191 @@
+version: 2
+
+sources:
+  - name: taxi_nyc_data
+    database: taxi_nyc
+    description: "This is a replica of the snowflake database"
+    schema: taxi_nyc_schema
+    tables:
+      - name: payment
+      - name: point_of_interest
+      - name: rate
+      - name: store_and_fwd
+      - name: taxi_trips
+      - name: taxi_zones
+      - name: trip
+      - name: vendor
+
+models:
+  - name: raw_payment
+    description: "The raw stage for the taxi materialized as view taxi_nyc_data"
+    columns:
+      - name: payment_id
+        tests:
+          - not_null
+  - name: raw_point_of_interest
+    columns:
+      - name: placeid
+        tests:
+          - unique
+          - not_null
+  - name: raw_rate
+    columns:
+      - name: ratecodeid
+        tests:
+          - not_null
+  - name: raw_store_and_fwd
+    columns:
+      - name: trip_record
+        tests:
+          - not_null
+  - name: raw_taxi_trips
+    columns:
+      - name: trip_id
+        tests:
+          - unique
+          - not_null
+  - name: raw_taxi_zones
+    columns:
+      - name: objectid
+        tests:
+          - unique
+          - not_null
+  - name: raw_trip
+    columns:
+      - name: triptype
+        tests:
+          - not_null
+  - name: raw_vendor
+    columns:
+      - name: vendor_id
+        tests:
+          - not_null
+  - name: stg_payment
+    columns:
+      - name: PAYMENT_TRIP_PK
+        tests:
+          - unique
+      - name: PAYMENT_PK
+        tests:
+          - unique
+  - name: stg_point_of_interest
+    columns:
+      - name: POI_ZONES_PK
+        tests:
+          - unique
+      - name: ZONES_PK
+        tests:
+          - unique
+      - name: PI_PK
+        tests:
+          - unique
+  - name: stg_rate
+    columns:
+      - name: RATE_TRIP_PK
+        tests:
+          - unique
+      - name: TAXI_TRIPS_PK
+        tests:
+          - unique
+      - name: RATE_PK
+        tests:
+          - unique
+  - name: stg_taxi_trips
+    columns:
+      - name: TAXI_TRIPS_PK
+        tests:
+          - unique
+          - not_null
+      - name: PULOCATION_PK
+        tests:
+          - unique
+          - not_null
+      - name: DOLOCATION_PK
+        tests:
+          - unique
+          - not_null
+  - name: stg_taxi_zones
+    columns:
+      - name: ZONES_PK
+        tests:
+          - unique
+          - not_null
+  - name: stg_trip
+    columns:
+      - name: TRIP_TAXI_PK
+        tests:
+          - unique
+      - name: TAXI_TRIPS_PK
+        tests:
+          - unique
+      - name: TRIP_PK
+        tests:
+          - unique
+  - name: stg_vendor
+    columns:
+      - name: VENDOR_TAXI_TRIPS_PK
+        tests:
+          - unique
+      - name: TAXI_TRIPS_PK
+        tests:
+          - unique
+  - name: hub_taxi_trips
+    columns:
+      - name: TAXI_TRIPS_PK
+        tests:
+          - unique
+          - not_null
+      - name: TAXI_TRIPS_KEY
+        tests:
+          - unique
+          - not_null
+  - name: hub_payment
+    columns:
+      - name: PAYMENT_PK
+        tests:
+          - unique
+          - not_null
+      - name: PAYMENT_KEY
+        tests:
+          - unique
+          - not_null
+  - name: hub_rate
+    columns:
+      - name: RATE_PK
+        tests:
+          - unique
+          - not_null
+      - name: RATE_KEY
+        tests:
+          - unique
+          - not_null
+  - name: hub_store_and_fwd
+    columns:
+      - name: STORAGE_PK
+        tests:
+          - unique
+          - not_null
+      - name: STORAGE_KEY
+        tests:
+          - unique
+          - not_null
+  - name: hub_taxi_zones
+    columns:
+      - name: ZONES_PK
+        tests:
+          - unique
+          - not_null
+      - name: ZONES_KEY
+        tests:
+          - unique
+          - not_null
+  - name: hub_trip
+    columns:
+      - name: TRIP_PK
+        tests:
+          - unique
+          - not_null
+      - name: TRIP_KEY
+        tests:
+          - unique
+          - not_null

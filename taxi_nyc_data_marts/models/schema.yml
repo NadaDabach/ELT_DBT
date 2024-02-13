@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: marts_source
+    database: taxi_nyc_analytics
+    description: This is a replica of the snowflake analytics database
+    schema: taxi_nyc_analytics_schema
+    tables:
+      - name: hub_business_payment
+      - name: hub_business_rate
+      - name: link_business_payment_taxi_trips
+      - name: link_business_rate_taxi_trips
+      - name: link_business_trip_taxi_trips
+      - name: sat_business_payment
+      - name: sat_business_point_of_interest
+      - name: sat_business_rate
+      - name: sat_business_store_and_fwd
+      - name: sat_business_taxi_trips
+      - name: sat_business_taxi_zones

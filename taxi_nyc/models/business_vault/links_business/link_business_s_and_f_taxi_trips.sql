@@ -1,0 +1,1 @@
+select * from {{ ref('link_s_and_f_taxi_trips') }}

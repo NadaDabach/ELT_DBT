@@ -1,0 +1,1 @@
+select * from {{ ref('hub_store_and_fwd') }}

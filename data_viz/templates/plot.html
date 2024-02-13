@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Analysis Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .widget {
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .plot {
+            width: 100%;
+            height: 300px; /* Adjust the height as needed */
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Report Analysis Dashboard</h1>
+    </header>
+    <div class="container">
+        <div class="dashboard">
+            <div class="widget">
+                <h2>Payment Histogram</h2>
+                <div id="payment_hist_plot" class="plot"></div>
+            </div>
+
+            <div class="widget">
+                <h2>Taxi Zones Map</h2>
+                <div id="taxi_zones_map" class="plot"></div>
+            </div>
+
+            <div class="widget">
+                <h2>Scatter plot</h2>
+                <div id="trip_distance_duration" class="plot"></div>
+            </div>
+
+            <!-- Add more widgets as needed -->
+        </div>
+    </div>
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        // Display the Payment Histogram plot
+        Plotly.d3.html('static/payment_hist_plot.html', function (data) {
+            var paymentHistPlot = document.getElementById('payment_hist_plot');
+            paymentHistPlot.appendChild(data);
+        });
+
+        // Display the Taxi Zones Map plot
+        Plotly.d3.html('static/taxi_zones_plot.html', function (data) {
+            document.getElementById('taxi_zones_map').appendChild(data);
+        });
+
+        // Display the Taxi Zones Map plot
+        Plotly.d3.html('static/trip_distance_duration.html', function (data) {
+            document.getElementById('trip_distance_duration').appendChild(data);
+        });
+
+    </script>
+</body>
+</html>

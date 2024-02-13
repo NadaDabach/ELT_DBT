@@ -1,0 +1,1 @@
+select * from {{ ref('hub_point_of_interest') }}
